@@ -1,0 +1,63 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "27.0.3"
+    defaultConfig {
+        applicationId "com.github.liangyunfeng.gtpush"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // AppID：
+        // CB9jPXxVWFAt6TSYPFPvV1
+        // AppSecret：
+        // kZ2WEPhhD16RIyZMk1tlC9
+        // AppKey：
+        // U7heKEFzxx8j3dVDF00Z39
+        // MasterSecret：
+        // vGtLRJuGcx9qEsQMuMcq11
+        // 为了进一步降低个推SDK集成难度、减少错误发生几率，从2.9.5.0版本文档开始，我们推荐应用开发者采用manifestPlaceholders来配置Manifest文件，避免手动替换参数可能导致的问题。
+        manifestPlaceholders = [
+                GETUI_APP_ID : "CB9jPXxVWFAt6TSYPFPvV1",
+                GETUI_APP_KEY : "U7heKEFzxx8j3dVDF00Z39",
+                GETUI_APP_SECRET : "kZ2WEPhhD16RIyZMk1tlC9"
+        ]
+
+        //ndk {
+        //    abiFilters "armeabi", "armeabi-v7a", "x86_64"
+        //}
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // 如果将 so 库放置在app/src/main/jniLibs以外的其他目录，请在app/build.gradle文件中的android段内正确设置 so 路径。假设 so 路径为app/libs，则需添加如下配置代码：
+    //sourceSets {
+    //    main {
+    //        jniLibs.srcDirs = ['libs']
+    //    }
+    //}
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
+    testCompile 'junit:junit:4.12'
+
+    compile files('libs/GetuiSDK2.12.4.0.jar')
+    compile files('libs/json_simple-1.1.jar')
+}
